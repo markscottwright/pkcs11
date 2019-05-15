@@ -1,4 +1,4 @@
-package pkcs11;
+package com.markscottwright.pkcs11.lowlevel;
 
 public class Pkcs11Exception extends Exception {
 

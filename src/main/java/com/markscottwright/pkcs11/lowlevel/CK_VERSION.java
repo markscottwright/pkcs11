@@ -1,4 +1,4 @@
-package pkcs11;
+package com.markscottwright.pkcs11.lowlevel;
 
 import com.sun.jna.Structure;
 import com.sun.jna.Structure.FieldOrder;
