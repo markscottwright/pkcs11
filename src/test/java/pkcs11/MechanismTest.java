@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.markscottwright.pkcs11.lowlevel.CKM;
 import com.markscottwright.pkcs11.lowlevel.CK_MECHANISM_TYPE;
 import com.markscottwright.pkcs11.lowlevel.CK_ULONG_PTR;
 import com.markscottwright.pkcs11.lowlevel.Pkcs11Exception;
@@ -29,6 +30,8 @@ public class MechanismTest extends SoftHsmTest {
                 mechanisms, numMechanisms));
         assertThat(Arrays.stream(mechanisms)
                 .anyMatch(m -> m.intValue() == CKM_AES_CBC));
+        Arrays.stream(mechanisms).map(CKM::toString)
+                .anyMatch(m -> "CKM_DES_CBC".equals(m));
     }
 
 }
