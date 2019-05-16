@@ -4,6 +4,7 @@ import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.Structure.FieldOrder;
+import com.sun.jna.ptr.PointerByReference;
 
 //@formatter:off
 @FieldOrder(value = { 
@@ -83,11 +84,11 @@ public class CK_FUNCTION_LIST extends Structure {
     public CK_Initialize C_Initialize;
     public CK_Finalize C_Finalize;
     public CK_GetInfo C_GetInfo;
-    public Pointer C_GetFunctionList;
+    public CK_GetFunctionList C_GetFunctionList;
     public CK_GetSlotList C_GetSlotList;
     public CK_GetSlotInfo C_GetSlotInfo;
     public CK_GetTokenInfo C_GetTokenInfo;
-    public Pointer C_GetMechanismList;
+    public CK_GetMechanismList C_GetMechanismList;
     public Pointer C_GetMechanismInfo;
     public Pointer C_InitToken;
     public Pointer C_InitPIN;
@@ -152,21 +153,35 @@ public class CK_FUNCTION_LIST extends Structure {
     public static interface CK_Initialize extends Callback {
         public CK_RV invoke(Pointer init_args);
     }
+
     public static interface CK_Finalize extends Callback {
         public CK_RV invoke(Pointer init_args);
     }
+
     public static interface CK_GetSlotList extends Callback {
-        public CK_RV invoke(boolean tokenPresent, CK_SLOT_ID[] pSlotList, CK_ULONG_PTR pulCount);
+        public CK_RV invoke(boolean tokenPresent, CK_SLOT_ID[] pSlotList,
+                CK_ULONG_PTR pulCount);
     }
+
     public static interface CK_GetSlotInfo extends Callback {
         public CK_RV invoke(CK_SLOT_ID slotID, CK_SLOT_INFO slotInfo);
     }
+
     public static interface CK_GetTokenInfo extends Callback {
         public CK_RV invoke(CK_SLOT_ID slotID, CK_TOKEN_INFO tokenInfo);
     }
 
+    public static interface CK_GetFunctionList extends Callback {
+        public CK_RV invoke(PointerByReference function_list);
+    }
+
     public static interface CK_GetInfo extends Callback {
         public CK_RV invoke(CK_INFO init_args);
+    }
+
+    public static interface CK_GetMechanismList extends Callback {
+        public CK_RV invoke(CK_SLOT_ID slotID,
+                CK_MECHANISM_TYPE[] pMechanismList, CK_ULONG_PTR pulCount);
     }
 
     public CK_FUNCTION_LIST(Pointer p) {
