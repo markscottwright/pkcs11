@@ -19,4 +19,12 @@ public class Pkcs11Exception extends Exception {
         return rv;
     }
 
+    static void check(String functionName, long rv) throws Pkcs11Exception {
+        if (!CKR.OK.equals(rv))
+            throw new Pkcs11Exception(functionName, rv);
+    }
+
+    public static void isOk(String functionName, CK_RV rv) throws Pkcs11Exception {
+        check(functionName, rv.longValue());
+    }
 }

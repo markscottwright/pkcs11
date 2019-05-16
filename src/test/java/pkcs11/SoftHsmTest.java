@@ -1,12 +1,12 @@
 package pkcs11;
 
+import static com.markscottwright.pkcs11.lowlevel.Pkcs11Exception.isOk;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
 
 import com.markscottwright.pkcs11.lowlevel.CK_FUNCTION_LIST;
-import com.markscottwright.pkcs11.lowlevel.CK_RV;
 import com.markscottwright.pkcs11.lowlevel.CK_SLOT_ID;
 import com.markscottwright.pkcs11.lowlevel.Pkcs11;
 import com.markscottwright.pkcs11.lowlevel.Pkcs11Exception;
@@ -29,9 +29,8 @@ public class SoftHsmTest {
         var pkcs11 = Native.load("softhsm\\windows\\softhsm2.dll",
                 Pkcs11.class);
         functions = Pkcs11.getFunctionList(pkcs11);
-        CK_RV rv = functions.C_Initialize.invoke(Pointer.NULL);
-        assertThat(rv.intValue()).isEqualTo(0);
-
+        isOk("C_Initialize",
+                functions.C_Initialize.invoke(Pointer.NULL));
         slotId = new CK_SLOT_ID();
         slotId.setValue(125480439);
     }
